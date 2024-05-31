@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "bico"
+version = "0.1.0"
+description = ""
+authors = ["Melanie Schmidt <mschmidt@hhu.de>", "Giulia Baldini <giulia.baldini@hhu.de>"]
+readme = "README.md"
+packages = [
+    { include = "bico" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.4"
+scikit-learn = "^1.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = {extras = ["jupyter"], version = "^24.4.2"}
+pre-commit = "^2.14.0"
+flake8 = "^7.0.0"
+mypy = "^1.10.0"
+pandas = "^2.2.2"
+jupyter = "^1.0.0"
+
+[tool.poetry.build]
+script = "build.py"
+generate-setup-file = true
+
+[build-system]
+requires = ["poetry-core", "setuptools"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+create = true
+in-project = true
+
+[tool.isort]
+profile = "black"
+line_length = 88

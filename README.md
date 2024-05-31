@@ -62,6 +62,29 @@ print(bico.cluster_centers_)
 #   0.55457724 0.44833238 0.67583389 0.43069267]]
 ```
 
+## Example with Large Datasets
+
+For very large datasets, the data may not actually fit in memory. In this case, you can use `partial_fit` to stream the data in chunks. In this example, we use the [BigCross dataset](https://cs.uni-paderborn.de/cuk/forschung/abgeschlossene-projekte/dfg-schwerpunktprogramm-1307/streamkm).
+
+```python
+from bico import BICO
+import numpy as np
+import time
+
+np.random.seed(42)
+
+data = np.random.rand(10000, 10)
+
+start = time.time()
+bico = BICO(n_clusters=3, random_state=0)
+for i, chunk in enumerate(pd.read_csv(
+    "bigcross.txt", delimiter=",", header=None, chunksize=10000
+)):
+    bico.partial_fit(chunk.to_numpy(copy=False))
+# If a final `partial_fit` is called with no data, the coreset is computed
+bico.partial_fit()
+```
+
 ## Development
 
 Install [poetry](https://python-poetry.org/docs/#installation)

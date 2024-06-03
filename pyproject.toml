@@ -20,6 +20,7 @@ flake8 = "^7.0.0"
 mypy = "^1.10.0"
 pandas = "^2.2.2"
 jupyter = "^1.0.0"
+ucimlrepo = "^0.0.7"
 
 [tool.poetry.build]
 script = "build.py"

@@ -2636,6 +2636,21 @@ files = [
 ]
 
 [[package]]
+name = "ucimlrepo"
+version = "0.0.7"
+description = "Package to easily import datasets from the UC Irvine Machine Learning Repository into scripts and notebooks."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "ucimlrepo-0.0.7-py3-none-any.whl", hash = "sha256:0a5ce7e21d7ec850a0da4427c47f9dd96fcc6532f1c7e95dcec63eeb40f08026"},
+    {file = "ucimlrepo-0.0.7.tar.gz", hash = "sha256:4cff3f9e814367dd60956da999ace473197237b9fce4c07e9a689e77b4ffb59a"},
+]
+
+[package.dependencies]
+certifi = ">=2020.12.5"
+pandas = ">=1.0.0"
+
+[[package]]
 name = "uri-template"
 version = "1.3.0"
 description = "RFC 6570 URI Template Processor"
@@ -2768,4 +2783,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "jaraco.test", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "b90d7343f1825e78a592daf2461eb5e1d866af7694819da7778be542013cf06d"
+content-hash = "eb2f9b7976a3eef6302bc9a9ff67ea8708f4a1db22af7ab96633bfb8b30bd350"

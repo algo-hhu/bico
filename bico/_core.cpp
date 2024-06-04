@@ -109,13 +109,26 @@ extern "C"
     {
         return new BicoExternal(d, k, p, m, seed);
     }
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+    __declspec(dllexport)
+#endif
     void addData(BicoExternal *bico, double const *array, uint n) { bico->addData(array, n); }
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+    __declspec(dllexport)
+#endif
     void addPoint(BicoExternal *bico, double const *array) { bico->addPoint(array); }
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+    __declspec(dllexport)
+#endif
     int compute(BicoExternal *bico, int *sample_weights,
                 double *points) { return bico->compute(sample_weights, points); }
 
+#if defined(_WIN32) || defined(__CYGWIN__)
+    __declspec(dllexport)
+#endif
     void freeBico(BicoExternal *bico) {
         delete bico;
     }

@@ -19,6 +19,8 @@
 #include "point/pointweightmodifier.h"
 #include "point/realspaceprovider.h"
 
+typedef unsigned int uint;
+
 using namespace CluE;
 
 class BicoExternal

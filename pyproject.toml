@@ -23,7 +23,7 @@ jupyter = "^1.0.0"
 ucimlrepo = "^0.0.7"
 
 [tool.poetry.build]
-script = "build.py"
+script = "build_extension.py"
 generate-setup-file = true
 
 [build-system]

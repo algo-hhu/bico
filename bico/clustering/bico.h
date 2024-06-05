@@ -143,7 +143,7 @@ private:
                 int bucket_min = bucket_number;
                 int mins;
 
-                if ((bucket_number < 0) || (bucket_number > outer.buckets[0].size() - 1))
+                if ((bucket_number < 0) || (bucket_number > (int) outer.buckets[0].size() - 1))
                 {
                     // The bucket does not exist (yet)
                     mins = 0;
@@ -156,7 +156,7 @@ private:
                     {
                         val = outer.project(element, i);
                         bucket_number = outer.calcBucketNumber(i, val);
-                        if ((bucket_number >= 0) & (bucket_number <= outer.buckets[i].size() - 1))
+                        if ((bucket_number >= 0) & (bucket_number <= (int) outer.buckets[i].size() - 1))
                         {
                             int s = outer.buckets[i][bucket_number].size();
                             if (s < mins)
@@ -185,7 +185,7 @@ private:
                     // Bucket does not exist => create one
                     outer.allocateBucket(rnd, true);
                 }
-                else if (bucket_number > outer.buckets[rnd].size() - 1)
+                else if (bucket_number > (int) outer.buckets[rnd].size() - 1)
                 {
                     // Bucket does not exist => create one
                     outer.allocateBucket(rnd, false);
@@ -808,9 +808,9 @@ template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::
                 bucket_number = calcBucketNumber(i, val);
             }
         }
-        else if (bucket_number > buckets[i].size() - 1)
+        else if (bucket_number > (int) buckets[i].size() - 1)
         {
-            while (bucket_number > buckets[i].size() - 1)
+            while (bucket_number > (int) buckets[i].size() - 1)
             {
                 allocateBucket(i, false);
                 bucket_number = calcBucketNumber(i, val);

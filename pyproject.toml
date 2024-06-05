@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "bico"
 version = "0.1.0"
-description = ""
+description = "BICO is a fast streaming algorithm to compute coresets for the k-means problem on very large sets of points."
 authors = ["Melanie Schmidt <mschmidt@hhu.de>", "Giulia Baldini <giulia.baldini@hhu.de>"]
 readme = "README.md"
 packages = [

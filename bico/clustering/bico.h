@@ -152,7 +152,7 @@ private:
                 {
                     // Search for the projection with smallest bucket size
                     mins = outer.buckets[mini][bucket_min].size();
-                    for (int i = 1; i < outer.L; i++)
+                    for (size_t i = 1; i < outer.L; i++)
                     {
                         val = outer.project(element, i);
                         bucket_number = outer.calcBucketNumber(i, val);
@@ -568,17 +568,17 @@ numOfRebuilds(0)
         };
     #endif
 
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
         maxVal[i] = -1;
         norm = 0.0;
-        for (int j = 0; j < dimension; j++)
+        for (size_t j = 0; j < dimension; j++)
         {
             rndpoint[j] = getRandomValue();
             norm += rndpoint[j] * rndpoint[j];
         }
         norm = std::sqrt(norm);
-        for (int j = 0; j < dimension; j++)
+        for (size_t j = 0; j < dimension; j++)
         {
             rndpoint[j] /= norm;
         }
@@ -604,7 +604,7 @@ template<typename T> void Bico<T>::initializeNN()
 {
     double maxBuckets = 10000;
     double Size = 0;
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
         // Compute new bucket size
         if (buckets[i].size() == 1)
@@ -621,7 +621,7 @@ template<typename T> void Bico<T>::initializeNN()
                 Size = (int) ceil((borders[i].second - borders[i].first) / (double) bucket_radius[i]);
             }
         }
-        for (int l = 0; l < buckets[i].size(); l++) buckets[i][l].clear();
+        for (size_t l = 0; l < buckets[i].size(); l++) buckets[i][l].clear();
         // Create new buckets
         buckets[i].clear();
         buckets[i].resize((int) ceil(Size));
@@ -635,11 +635,11 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
         // Push front bucket
         borders[bucket].first = 2 * borders[bucket].first - borders[bucket].second;
         std::vector < std::vector<typename BicoNode::FeatureList::iterator >> a(2 * buckets[bucket].size());
-        for (int i = 0; i < buckets[bucket].size(); i++)
+        for (size_t i = 0; i < buckets[bucket].size(); i++)
         {
             a[buckets[bucket].size() + i] = buckets[bucket][i];
         }
-        for (int l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
+        for (size_t l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
         buckets[bucket].clear();
         buckets[bucket] = a;
     }
@@ -648,11 +648,11 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
         // Push back bucket
         borders[bucket].second = 2 * borders[bucket].second - borders[bucket].first;
         std::vector < std::vector<typename BicoNode::FeatureList::iterator >> a(2 * buckets[bucket].size());
-        for (int i = 0; i < buckets[bucket].size(); i++)
+        for (size_t i = 0; i < buckets[bucket].size(); i++)
         {
             a[i] = buckets[bucket][i];
         }
-        for (int l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
+        for (size_t l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
         buckets[bucket].clear();
         buckets[bucket] = a;
     }
@@ -661,7 +661,7 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
 template<typename T> double Bico<T>::project(T point, int i)
 {
     double ip = 0.0;
-    for (int j = 0; j < dimension; j++)
+    for (size_t j = 0; j < dimension; j++)
     {
         ip += point[j]*(rndprojections[i][j]);
     }
@@ -700,7 +700,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
     if (bufferPhase)
     {
         // Update bucket configuration
-        for (int i = 0; i < L; i++)
+        for (size_t i = 0; i < L; i++)
         {
             double val = std::abs(project(element, i));
             if (val > maxVal[i] || maxVal[i] == -1)
@@ -722,14 +722,12 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
         {
             // Sort projection values and determine smallest distance on projection line
             std::sort(projection_buffer.begin(), projection_buffer.end(), comparePairFirst<>());
-            double minProjDist = std::numeric_limits<double>::infinity();
             double minProjRealDist = std::numeric_limits<double>::infinity();
-            for(int i = 0; i < pairwise_different-2; ++i)
+            for(size_t i = 0; i < pairwise_different-2; ++i)
             {
                 double tmpDist = projection_buffer[i+1].first - projection_buffer[i].first;
                 if(tmpDist < minProjRealDist)
                 {
-                    minProjDist = tmpDist;
                     double tmpMinProjRealDist = measure->dissimilarity(*projection_buffer[i].second, *projection_buffer[i+1].second);
                     if(tmpMinProjRealDist > 0)
                     {
@@ -744,7 +742,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             double lowerEnd = projection_buffer[0].first;
             double upperEnd = lowerEnd + minProjRealDist;
             double minDist = minProjRealDist;
-            for(int i = 0; i < pairwise_different-1; ++i)
+            for(size_t i = 0; i < pairwise_different-1; ++i)
             {
                 if(projection_buffer[i].first >= upperEnd)
                 {
@@ -775,7 +773,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             //std::cout << "optEst  = " << minDist << std::endl;
             long long int radius = (long long int) ceil(sqrt(getR(1)));
             borders.resize(L);
-            for (int i = 0; i < L; i++)
+            for (size_t i = 0; i < L; i++)
             {
                 borders[i].first = -maxVal[i];
                 borders[i].second = maxVal[i];
@@ -797,7 +795,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
 
 template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::iterator iteratorElement)
 {
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
         double val = project(iteratorElement->first.representative, i);
         int bucket_number = calcBucketNumber(i, val);

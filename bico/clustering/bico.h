@@ -549,13 +549,32 @@ dimension(dim)
     maxVal.resize(L);
     double norm;
     std::normal_distribution<double> realDist(0.0, 1.0);
+
+    // TODO: Test this with MacOS and others
+    #ifdef __GLIBCXX__
+        # define getRandomValue() realDist(rg)
+    #else
+        // The order of the values in MSVC and LIBCPP is different.
+        // To have the same results, we cache values pair-wise,
+        // then return them in swapped order to put them in the same order.
+        size_t i = 0;
+        float vals[2] = { };
+        auto getRandomValue = [&]() -> float {
+            if (! (i % 2)) {
+            vals[0] = realDist(rg);
+            vals[1] = realDist(rg);
+            }
+            return vals[++i % 2];
+        };
+    #endif
+
     for (int i = 0; i < L; i++)
     {
         maxVal[i] = -1;
         norm = 0.0;
         for (int j = 0; j < dimension; j++)
         {
-            rndpoint[j] = realDist(rg);
+            rndpoint[j] = getRandomValue();
             norm += rndpoint[j] * rndpoint[j];
         }
         norm = std::sqrt(norm);

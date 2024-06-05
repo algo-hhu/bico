@@ -89,12 +89,12 @@ public:
 		return this->coordinates.size();
 	}
 
-	virtual size_t getWeight() const
+	virtual double getWeight() const
 	{
 		return this->weight;
 	}
 
-	virtual void setWeight(size_t w)
+	virtual void setWeight(double w)
 	{
 		this->weight = w;
 	}
@@ -137,7 +137,7 @@ public:
 
 private:
 	std::vector<double> coordinates;
-	size_t weight;
+	double weight;
 };
 
 std::ostream& operator<<(std::ostream&, Point const&);

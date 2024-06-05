@@ -22,8 +22,8 @@ public:
 	*/
 	virtual WeightModifier<T>* clone() const = 0;
 
-	virtual double getWeight(T&) = 0;
-	virtual void setWeight(T&, double) = 0;
+	virtual size_t getWeight(T&) = 0;
+	virtual void setWeight(T&, size_t) = 0;
 };
 
 }

@@ -17,8 +17,8 @@ class PointWeightModifier : public WeightModifier<Point>
 public:
 	virtual PointWeightModifier* clone() const;
 
-	virtual double getWeight(Point&);
-	virtual void setWeight(Point&, double);
+	virtual size_t getWeight(Point&);
+	virtual void setWeight(Point&, size_t);
 };
 
 inline
@@ -28,13 +28,13 @@ PointWeightModifier* PointWeightModifier::clone() const
 }
 
 inline
-double PointWeightModifier::getWeight(Point& p)
+size_t PointWeightModifier::getWeight(Point& p)
 {
     return p.getWeight();
 }
 
 inline
-void PointWeightModifier::setWeight(Point& p, double w)
+void PointWeightModifier::setWeight(Point& p, size_t w)
 {
     p.setWeight(w);
 }

@@ -137,7 +137,7 @@ public:
 
 private:
 	std::vector<double> coordinates;
-	double weight;
+	size_t weight;
 };
 
 std::ostream& operator<<(std::ostream&, Point const&);

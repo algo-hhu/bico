@@ -154,8 +154,8 @@ private:
                     mins = outer.buckets[mini][bucket_min].size();
                     for (size_t i = 1; i < outer.L; i++)
                     {
-                        val = outer.project(element, i);
-                        bucket_number = outer.calcBucketNumber(i, val);
+                        val = outer.project(element, static_cast<int>(i));
+                        bucket_number = outer.calcBucketNumber(static_cast<int>(i), val);
                         if ((bucket_number >= 0) & (bucket_number <= static_cast<int>(outer.buckets[i].size()) - 1))
                         {
                             int s = outer.buckets[i][bucket_number].size();
@@ -163,14 +163,14 @@ private:
                             {
                                 mins = s;
                                 bucket_min = bucket_number;
-                                mini = i;
+                                mini = static_cast<int>(i);
                             }
                         }
                         else
                         {
                             mins = 0;
                             bucket_min = bucket_number;
-                            mini = i;
+                            mini = static_cast<int>(i);
                             break;
                         }
                     }
@@ -702,7 +702,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
         // Update bucket configuration
         for (size_t i = 0; i < L; i++)
         {
-            double val = std::abs(project(element, i));
+            double val = std::abs(project(element, static_cast<int>(i)));
             if (val > maxVal[i] || maxVal[i] == -1)
             {
                 maxVal[i] = val;
@@ -746,7 +746,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             {
                 if(projection_buffer[i].first >= upperEnd)
                 {
-                    upperIndex = i;
+                    upperIndex = static_cast<int>(i);
 
                     for(int j = lowerIndex; j < upperIndex; ++j)
                     {
@@ -761,7 +761,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
                         }
                     }
 
-                    lowerIndex = i;
+                    lowerIndex = static_cast<int>(i);
                     lowerEnd = projection_buffer[i].first;
                     upperEnd = lowerEnd + minProjRealDist;
                 }
@@ -812,7 +812,7 @@ template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::
         {
             while (bucket_number > static_cast<int>(buckets[i].size()) - 1)
             {
-                allocateBucket(i, false);
+                allocateBucket(static_cast<int>(i), false);
                 bucket_number = calcBucketNumber(static_cast<int>(i), val);
             }
         }

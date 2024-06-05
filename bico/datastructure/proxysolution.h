@@ -27,8 +27,8 @@ public:
 	}
 
 	virtual double computationtime() const;
-	virtual unsigned int number_of_solutions() const;
-	virtual unsigned int size_of_solution(unsigned int) const;
+	virtual size_t number_of_solutions() const;
+	virtual size_t size_of_solution(unsigned int) const;
 
 	virtual T proxy(unsigned int n, unsigned int c) const;
 	virtual std::vector<T> proxies(unsigned int n) const;
@@ -46,12 +46,12 @@ template<typename T> double ProxySolution<T>::computationtime() const
 	return seconds;
 }
 
-template<typename T> unsigned int ProxySolution<T>::number_of_solutions() const
+template<typename T> size_t ProxySolution<T>::number_of_solutions() const
 {
 	return this->proxysets.size();
 }
 
-template<typename T> unsigned int ProxySolution<T>::size_of_solution(unsigned int i) const
+template<typename T> size_t ProxySolution<T>::size_of_solution(unsigned int i) const
 {
 	if (i<this->proxysets.size())
 		return this->proxysets[i].size();

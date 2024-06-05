@@ -613,7 +613,7 @@ template<typename T> void Bico<T>::initializeNN()
         }
         else
         {
-            bucket_radius[i] = (long long int) ceil(sqrt(getR(1)));
+            bucket_radius[i] = (double) ceil(sqrt(getR(1)));
             Size = (int) ceil((borders[i].second - borders[i].first) / (double) bucket_radius[i]);
             if(Size < 0 || Size > maxBuckets)
             {
@@ -771,7 +771,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             optEst = 16.0 * minDist;
             //std::cout << "minDist = " << minDist << std::endl;
             //std::cout << "optEst  = " << minDist << std::endl;
-            long long int radius = (long long int) ceil(sqrt(getR(1)));
+            double radius = (double) ceil(sqrt(getR(1)));
             borders.resize(L);
             for (size_t i = 0; i < L; i++)
             {

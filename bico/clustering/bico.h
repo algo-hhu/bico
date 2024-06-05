@@ -524,22 +524,22 @@ template<template <typename> class P = std::less> struct comparePairFirst
 
 template<typename T> Bico<T>::Bico(size_t dim, size_t k, size_t p, size_t nMax, int seed,
                                    DissimilarityMeasure<T>* measure, WeightModifier<T>* weightModifier) :
+k(k),
+L(p),
 nodeIdCounter(0),
 measure(measure->clone()),
 weightModifier(weightModifier->clone()),
 maxNumOfCFs(nMax),
 curNumOfCFs(0),
-k(k),
-L(p),
+dimension(dim),
 optEst(-1),
 root(new BicoNode(*this)),
 bufferPhase(true),
-numOfRebuilds(0),
 buffer(),
 projection_buffer(),
 minDist(std::numeric_limits<double>::infinity()),
 pairwise_different(0),
-dimension(dim)
+numOfRebuilds(0)
 {
     Randomness::initialize(seed);
     RandomGenerator rg = Randomness::getRandomGenerator();

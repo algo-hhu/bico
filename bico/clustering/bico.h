@@ -143,7 +143,7 @@ private:
                 int bucket_min = bucket_number;
                 int mins;
 
-                if ((bucket_number < 0) || (bucket_number > outer.buckets[0].size() - 1))
+                if ((bucket_number < 0) || (bucket_number > static_cast<int>(outer.buckets[0].size()) - 1))
                 {
                     // The bucket does not exist (yet)
                     mins = 0;
@@ -151,26 +151,26 @@ private:
                 else
                 {
                     // Search for the projection with smallest bucket size
-                    mins = outer.buckets[mini][bucket_min].size();
-                    for (int i = 1; i < outer.L; i++)
+                    mins = static_cast<int>(outer.buckets[mini][bucket_min].size());
+                    for (size_t i = 1; i < outer.L; i++)
                     {
-                        val = outer.project(element, i);
-                        bucket_number = outer.calcBucketNumber(i, val);
-                        if ((bucket_number >= 0) & (bucket_number <= outer.buckets[i].size() - 1))
+                        val = outer.project(element, static_cast<int>(i));
+                        bucket_number = outer.calcBucketNumber(static_cast<int>(i), val);
+                        if ((bucket_number >= 0) & (bucket_number <= static_cast<int>(outer.buckets[i].size()) - 1))
                         {
-                            int s = outer.buckets[i][bucket_number].size();
+                            int s = static_cast<int>(outer.buckets[i][bucket_number].size());
                             if (s < mins)
                             {
                                 mins = s;
                                 bucket_min = bucket_number;
-                                mini = i;
+                                mini = static_cast<int>(i);
                             }
                         }
                         else
                         {
                             mins = 0;
                             bucket_min = bucket_number;
-                            mini = i;
+                            mini = static_cast<int>(i);
                             break;
                         }
                     }
@@ -185,7 +185,7 @@ private:
                     // Bucket does not exist => create one
                     outer.allocateBucket(rnd, true);
                 }
-                else if (bucket_number > outer.buckets[rnd].size() - 1)
+                else if (bucket_number > static_cast<int>(outer.buckets[rnd].size()) - 1)
                 {
                     // Bucket does not exist => create one
                     outer.allocateBucket(rnd, false);
@@ -524,22 +524,22 @@ template<template <typename> class P = std::less> struct comparePairFirst
 
 template<typename T> Bico<T>::Bico(size_t dim, size_t k, size_t p, size_t nMax, int seed,
                                    DissimilarityMeasure<T>* measure, WeightModifier<T>* weightModifier) :
+k(k),
+L(p),
 nodeIdCounter(0),
 measure(measure->clone()),
 weightModifier(weightModifier->clone()),
 maxNumOfCFs(nMax),
 curNumOfCFs(0),
-k(k),
-L(p),
+dimension(dim),
 optEst(-1),
 root(new BicoNode(*this)),
 bufferPhase(true),
-numOfRebuilds(0),
 buffer(),
 projection_buffer(),
 minDist(std::numeric_limits<double>::infinity()),
 pairwise_different(0),
-dimension(dim)
+numOfRebuilds(0)
 {
     Randomness::initialize(seed);
     RandomGenerator rg = Randomness::getRandomGenerator();
@@ -558,8 +558,8 @@ dimension(dim)
         // To have the same results, we cache values pair-wise,
         // then return them in swapped order to put them in the same order.
         size_t i = 0;
-        float vals[2] = { };
-        auto getRandomValue = [&]() -> float {
+        double vals[2] = { };
+        auto getRandomValue = [&]() -> double {
             if (! (i % 2)) {
             vals[0] = realDist(rg);
             vals[1] = realDist(rg);
@@ -568,17 +568,17 @@ dimension(dim)
         };
     #endif
 
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
         maxVal[i] = -1;
         norm = 0.0;
-        for (int j = 0; j < dimension; j++)
+        for (size_t j = 0; j < dimension; j++)
         {
             rndpoint[j] = getRandomValue();
             norm += rndpoint[j] * rndpoint[j];
         }
         norm = std::sqrt(norm);
-        for (int j = 0; j < dimension; j++)
+        for (size_t j = 0; j < dimension; j++)
         {
             rndpoint[j] /= norm;
         }
@@ -604,7 +604,7 @@ template<typename T> void Bico<T>::initializeNN()
 {
     double maxBuckets = 10000;
     double Size = 0;
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
         // Compute new bucket size
         if (buckets[i].size() == 1)
@@ -613,7 +613,7 @@ template<typename T> void Bico<T>::initializeNN()
         }
         else
         {
-            bucket_radius[i] = (long long int) ceil(sqrt(getR(1)));
+            bucket_radius[i] = (double) ceil(sqrt(getR(1)));
             Size = (int) ceil((borders[i].second - borders[i].first) / (double) bucket_radius[i]);
             if(Size < 0 || Size > maxBuckets)
             {
@@ -621,7 +621,7 @@ template<typename T> void Bico<T>::initializeNN()
                 Size = (int) ceil((borders[i].second - borders[i].first) / (double) bucket_radius[i]);
             }
         }
-        for (int l = 0; l < buckets[i].size(); l++) buckets[i][l].clear();
+        for (size_t l = 0; l < buckets[i].size(); l++) buckets[i][l].clear();
         // Create new buckets
         buckets[i].clear();
         buckets[i].resize((int) ceil(Size));
@@ -635,11 +635,11 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
         // Push front bucket
         borders[bucket].first = 2 * borders[bucket].first - borders[bucket].second;
         std::vector < std::vector<typename BicoNode::FeatureList::iterator >> a(2 * buckets[bucket].size());
-        for (int i = 0; i < buckets[bucket].size(); i++)
+        for (size_t i = 0; i < buckets[bucket].size(); i++)
         {
             a[buckets[bucket].size() + i] = buckets[bucket][i];
         }
-        for (int l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
+        for (size_t l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
         buckets[bucket].clear();
         buckets[bucket] = a;
     }
@@ -648,11 +648,11 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
         // Push back bucket
         borders[bucket].second = 2 * borders[bucket].second - borders[bucket].first;
         std::vector < std::vector<typename BicoNode::FeatureList::iterator >> a(2 * buckets[bucket].size());
-        for (int i = 0; i < buckets[bucket].size(); i++)
+        for (size_t i = 0; i < buckets[bucket].size(); i++)
         {
             a[i] = buckets[bucket][i];
         }
-        for (int l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
+        for (size_t l = 0; l < buckets[bucket].size(); l++) buckets[bucket][l].clear();
         buckets[bucket].clear();
         buckets[bucket] = a;
     }
@@ -661,7 +661,7 @@ template<typename T> void Bico<T>::allocateBucket(int bucket, bool left)
 template<typename T> double Bico<T>::project(T point, int i)
 {
     double ip = 0.0;
-    for (int j = 0; j < dimension; j++)
+    for (size_t j = 0; j < dimension; j++)
     {
         ip += point[j]*(rndprojections[i][j]);
     }
@@ -689,7 +689,7 @@ template<typename T> void Bico<T>::computeTraverse(BicoNode* node, ProxySolution
     for (auto it = node->begin(); it != node->end(); ++it)
     {
         T point(it->first.cog());
-        weightModifier->setWeight(point, it->first.number);
+        weightModifier->setWeight(point, static_cast<double>(it->first.number));
         solution->proxysets[0].push_back(point);
         computeTraverse(it->second, solution);
     }
@@ -700,9 +700,9 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
     if (bufferPhase)
     {
         // Update bucket configuration
-        for (int i = 0; i < L; i++)
+        for (size_t i = 0; i < L; i++)
         {
-            double val = std::abs(project(element, i));
+            double val = std::abs(project(element, static_cast<int>(i)));
             if (val > maxVal[i] || maxVal[i] == -1)
             {
                 maxVal[i] = val;
@@ -722,14 +722,12 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
         {
             // Sort projection values and determine smallest distance on projection line
             std::sort(projection_buffer.begin(), projection_buffer.end(), comparePairFirst<>());
-            double minProjDist = std::numeric_limits<double>::infinity();
             double minProjRealDist = std::numeric_limits<double>::infinity();
-            for(int i = 0; i < pairwise_different-2; ++i)
+            for(size_t i = 0; i < pairwise_different-2; ++i)
             {
                 double tmpDist = projection_buffer[i+1].first - projection_buffer[i].first;
                 if(tmpDist < minProjRealDist)
                 {
-                    minProjDist = tmpDist;
                     double tmpMinProjRealDist = measure->dissimilarity(*projection_buffer[i].second, *projection_buffer[i+1].second);
                     if(tmpMinProjRealDist > 0)
                     {
@@ -744,11 +742,11 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             double lowerEnd = projection_buffer[0].first;
             double upperEnd = lowerEnd + minProjRealDist;
             double minDist = minProjRealDist;
-            for(int i = 0; i < pairwise_different-1; ++i)
+            for(size_t i = 0; i < pairwise_different-1; ++i)
             {
                 if(projection_buffer[i].first >= upperEnd)
                 {
-                    upperIndex = i;
+                    upperIndex = static_cast<int>(i);
 
                     for(int j = lowerIndex; j < upperIndex; ++j)
                     {
@@ -763,7 +761,7 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
                         }
                     }
 
-                    lowerIndex = i;
+                    lowerIndex = static_cast<int>(i);
                     lowerEnd = projection_buffer[i].first;
                     upperEnd = lowerEnd + minProjRealDist;
                 }
@@ -773,9 +771,9 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
             optEst = 16.0 * minDist;
             //std::cout << "minDist = " << minDist << std::endl;
             //std::cout << "optEst  = " << minDist << std::endl;
-            long long int radius = (long long int) ceil(sqrt(getR(1)));
+            double radius = (double) ceil(sqrt(getR(1)));
             borders.resize(L);
-            for (int i = 0; i < L; i++)
+            for (size_t i = 0; i < L; i++)
             {
                 borders[i].first = -maxVal[i];
                 borders[i].second = maxVal[i];
@@ -797,25 +795,25 @@ template<typename T> Bico<T>& Bico<T>::operator<<(T const & element)
 
 template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::iterator iteratorElement)
 {
-    for (int i = 0; i < L; i++)
+    for (size_t i = 0; i < L; i++)
     {
-        double val = project(iteratorElement->first.representative, i);
-        int bucket_number = calcBucketNumber(i, val);
+        double val = project(iteratorElement->first.representative, static_cast<int>(i));
+        int bucket_number = calcBucketNumber(static_cast<int>(i), val);
 
         if (bucket_number < 0)
         {
             while (bucket_number < 0)
             {
-                allocateBucket(i, true);
-                bucket_number = calcBucketNumber(i, val);
+                allocateBucket(static_cast<int>(i), true);
+                bucket_number = calcBucketNumber(static_cast<int>(i), val);
             }
         }
-        else if (bucket_number > buckets[i].size() - 1)
+        else if (bucket_number > static_cast<int>(buckets[i].size()) - 1)
         {
-            while (bucket_number > buckets[i].size() - 1)
+            while (bucket_number > static_cast<int>(buckets[i].size()) - 1)
             {
-                allocateBucket(i, false);
-                bucket_number = calcBucketNumber(i, val);
+                allocateBucket(static_cast<int>(i), false);
+                bucket_number = calcBucketNumber(static_cast<int>(i), val);
             }
         }
         buckets[i][bucket_number].push_back(iteratorElement);

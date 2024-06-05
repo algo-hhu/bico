@@ -35,7 +35,7 @@ public:
     virtual ~BicoExternal();
     void addData(double const *array, uint n);
     void addPoint(double const *array);
-    int compute(int *sample_weights,
+    size_t compute(double *sample_weights,
                 double *points);
 
 private:
@@ -66,7 +66,7 @@ void BicoExternal::addPoint(double const *array)
     *_bico << p;
 }
 
-int BicoExternal::compute(int *sample_weights,
+size_t BicoExternal::compute(double *sample_weights,
                           double *points)
 {
     // Retrieve coreset
@@ -82,7 +82,7 @@ int BicoExternal::compute(int *sample_weights,
             points[i * _d + j] = sol->proxysets[0][i][j];
         }
     }
-    int m = sol->proxysets[0].size();
+    size_t m = sol->proxysets[0].size();
     delete sol;
 
     return m;
@@ -123,7 +123,7 @@ extern "C"
 #if defined(_WIN32) || defined(__CYGWIN__)
     __declspec(dllexport)
 #endif
-    int compute(BicoExternal *bico, int *sample_weights,
+    size_t compute(BicoExternal *bico, double *sample_weights,
                 double *points) { return bico->compute(sample_weights, points); }
 
 #if defined(_WIN32) || defined(__CYGWIN__)

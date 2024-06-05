@@ -76,7 +76,9 @@ class TestBICO(unittest.TestCase):
 
                         is_close = np.isclose(py_result, c_result)
 
-                        assert is_close.all()
+                        assert is_close.all(), (
+                            py_result.values[~is_close] - c_result.values[~is_close]
+                        )
 
 
 if __name__ == "__main__":

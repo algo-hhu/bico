@@ -31,5 +31,5 @@ jobs:
         variables: |
           {
             "PROJECT": "bico",
-            "GIT_HASH": "${{ github.sha }}"
+            "GIT_HASH": "${{ github.event.pull_request.head.sha || github.sha }}"
           }

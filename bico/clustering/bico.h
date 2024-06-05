@@ -798,14 +798,14 @@ template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::
     for (size_t i = 0; i < L; i++)
     {
         double val = project(iteratorElement->first.representative, i);
-        int bucket_number = calcBucketNumber(i, val);
+        int bucket_number = calcBucketNumber(static_cast<int>(i), val);
 
         if (bucket_number < 0)
         {
             while (bucket_number < 0)
             {
-                allocateBucket(i, true);
-                bucket_number = calcBucketNumber(i, val);
+                allocateBucket(static_cast<int>(i), true);
+                bucket_number = calcBucketNumber(static_cast<int>(i), val);
             }
         }
         else if (bucket_number > static_cast<int>(buckets[i].size()) - 1)
@@ -813,7 +813,7 @@ template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::
             while (bucket_number > static_cast<int>(buckets[i].size()) - 1)
             {
                 allocateBucket(i, false);
-                bucket_number = calcBucketNumber(i, val);
+                bucket_number = calcBucketNumber(static_cast<int>(i), val);
             }
         }
         buckets[i][bucket_number].push_back(iteratorElement);

@@ -108,7 +108,7 @@ template<typename T> void CFEntry<T>::insert(T const & x)
 		WeightedObject const * wm = static_cast<WeightedObject const *>(&x);
 		weight = wm->getWeight();
 	}
-	number += weight;
+	number += static_cast<size_t>(weight);
 	LS += weight * x;
 	SS += weight * (x*x);
 }
@@ -121,7 +121,7 @@ template<typename T> void CFEntry<T>::remove(T const & x)
 		WeightedObject const * wm = static_cast<WeightedObject const *>(&x);
 		weight = wm->getWeight();
 	}
-	number -= weight;
+	number -= static_cast<size_t>(weight);
 	LS -= weight * x;
 	SS -= weight * (x*x);
 }

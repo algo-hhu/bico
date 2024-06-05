@@ -24,7 +24,7 @@ public:
 	* number of computed clusters, proxies (e.g. cluster centers) or the size of a coreset.
 	* The sizes can be retrieved by a call to size_of_solution().
 	*/
-	virtual unsigned int number_of_solutions() const = 0;
+	virtual size_t number_of_solutions() const = 0;
 
 	/**
 	* @brief returns the size of a particular solution
@@ -32,7 +32,7 @@ public:
 	* @param index number between 0 and @ref number_of_solutions()-1
 	* @return the size for the requested clustering
 	*/
-	virtual unsigned int size_of_solution(unsigned int index) const = 0;
+	virtual size_t size_of_solution(unsigned int index) const = 0;
 
 	/**
 	* @brief returns the proxy for the specified clustering and cluster

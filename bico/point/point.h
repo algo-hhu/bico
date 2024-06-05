@@ -89,12 +89,12 @@ public:
 		return this->coordinates.size();
 	}
 
-	virtual double getWeight() const
+	virtual size_t getWeight() const
 	{
 		return this->weight;
 	}
 
-	virtual void setWeight(double w)
+	virtual void setWeight(size_t w)
 	{
 		this->weight = w;
 	}

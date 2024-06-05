@@ -136,7 +136,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
                 "This BICO instance is not fitted yet. " "Call `fit` or `partial_fit`."
             )
 
-        c_coreset_weights = (ctypes.c_int * self.summary_size)()
+        c_coreset_weights = (ctypes.c_size_t * self.summary_size)()
         c_points = (ctypes.c_double * self.n_features_in_ * self.summary_size)()
 
         _DLL.compute.restype = ctypes.c_int

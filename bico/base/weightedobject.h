@@ -10,8 +10,8 @@ namespace CluE
 class WeightedObject
 {
 public:
-	virtual double getWeight() const = 0;
-	virtual void setWeight(double w) = 0;
+	virtual size_t getWeight() const = 0;
+	virtual void setWeight(size_t w) = 0;
 };
 
 }

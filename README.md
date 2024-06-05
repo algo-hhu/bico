@@ -10,7 +10,7 @@ BICO is a fast streaming algorithm to compute high quality solutions for the k-m
 <!---
 TODO: Add logo
 <p align="center">
-  <img src="https://github.com/algo-hhu/bico/blob/main/images/logo.png" alt="BICO Logo"/>
+  <img src="https://raw.githubusercontent.com/algo-hhu/bico/main/images/logo.png" alt="BICO Logo"/>
 </p>
 -->
 

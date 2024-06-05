@@ -28,4 +28,4 @@ jobs:
         access_token: ${{ secrets.DEPLOY_ACCESS_TOKEN }}
         id: '3102'
         ref: 'main'
-        variables: ${{ format('{"PROJECT":"bico", "GIT_HASH": "{0}"}', $GITHUB_SHA)}}
+        variables: ${{ toJson({ 'PROJECT': 'bico', 'GIT_HASH': github.sha }) }}

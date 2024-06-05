@@ -139,7 +139,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         c_coreset_weights = (ctypes.c_double * self.summary_size)()
         c_points = (ctypes.c_double * self.n_features_in_ * self.summary_size)()
 
-        _DLL.compute.restype = ctypes.c_int
+        _DLL.compute.restype = ctypes.c_size_t
         n_found_points = _DLL.compute(self.bico_obj_, c_coreset_weights, c_points)
 
         self._coreset_weights: np.ndarray = np.ctypeslib.as_array(c_coreset_weights)[

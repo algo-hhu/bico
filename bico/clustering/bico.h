@@ -558,8 +558,8 @@ numOfRebuilds(0)
         // To have the same results, we cache values pair-wise,
         // then return them in swapped order to put them in the same order.
         size_t i = 0;
-        float vals[2] = { };
-        auto getRandomValue = [&]() -> float {
+        double vals[2] = { };
+        auto getRandomValue = [&]() -> double {
             if (! (i % 2)) {
             vals[0] = realDist(rg);
             vals[1] = realDist(rg);

@@ -151,14 +151,14 @@ private:
                 else
                 {
                     // Search for the projection with smallest bucket size
-                    mins = outer.buckets[mini][bucket_min].size();
+                    mins = static_cast<int>(outer.buckets[mini][bucket_min].size());
                     for (size_t i = 1; i < outer.L; i++)
                     {
                         val = outer.project(element, static_cast<int>(i));
                         bucket_number = outer.calcBucketNumber(static_cast<int>(i), val);
                         if ((bucket_number >= 0) & (bucket_number <= static_cast<int>(outer.buckets[i].size()) - 1))
                         {
-                            int s = outer.buckets[i][bucket_number].size();
+                            int s = static_cast<int>(outer.buckets[i][bucket_number].size());
                             if (s < mins)
                             {
                                 mins = s;
@@ -689,7 +689,7 @@ template<typename T> void Bico<T>::computeTraverse(BicoNode* node, ProxySolution
     for (auto it = node->begin(); it != node->end(); ++it)
     {
         T point(it->first.cog());
-        weightModifier->setWeight(point, it->first.number);
+        weightModifier->setWeight(point, static_cast<double>(it->first.number));
         solution->proxysets[0].push_back(point);
         computeTraverse(it->second, solution);
     }
@@ -797,7 +797,7 @@ template<typename T> void Bico<T>::insertIntoNN(typename BicoNode::FeatureList::
 {
     for (size_t i = 0; i < L; i++)
     {
-        double val = project(iteratorElement->first.representative, i);
+        double val = project(iteratorElement->first.representative, static_cast<int>(i));
         int bucket_number = calcBucketNumber(static_cast<int>(i), val);
 
         if (bucket_number < 0)

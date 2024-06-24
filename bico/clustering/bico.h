@@ -540,7 +540,7 @@ minDist(std::numeric_limits<double>::infinity()),
 pairwise_different(0),
 numOfRebuilds(0)
 {
-    std::mt19937 rg(static_cast<unsigned int>(time(0)));
+    std::mt19937 rg(seed);
     std::vector<double> rndpoint(dimension);
     rndprojections.resize(L);
     bucket_radius.resize(L);

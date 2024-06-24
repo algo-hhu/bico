@@ -8,7 +8,6 @@ extension = Extension(
     name="bico._core",
     sources=[
         "bico/_core.cpp",
-        "bico/misc/randomness.cpp",
         "bico/point/pointcentroid.cpp",
         "bico/point/squaredl2metric.cpp",
         "bico/point/point.cpp",

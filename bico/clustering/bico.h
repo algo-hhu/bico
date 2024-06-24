@@ -18,7 +18,6 @@
 #include "../datastructure/proxysolution.h"
 #include "../evaluation/kmeansevaluator.h"
 #include "../exception/invalidruntimeconfigurationexception.h"
-#include "../misc/randomness.h"
 
 namespace CluE
 {
@@ -541,8 +540,7 @@ minDist(std::numeric_limits<double>::infinity()),
 pairwise_different(0),
 numOfRebuilds(0)
 {
-    Randomness::initialize(seed);
-    RandomGenerator rg = Randomness::getRandomGenerator();
+    std::mt19937 rg(seed);
     std::vector<double> rndpoint(dimension);
     rndprojections.resize(L);
     bucket_radius.resize(L);

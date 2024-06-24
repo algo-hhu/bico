@@ -1,23 +1,12 @@
 #include <Python.h>
 
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <random>
-#include <ctime>
-#include <time.h>
-
 #include "point/l2metric.h"
 #include "point/squaredl2metric.h"
 #include "point/point.h"
 #include "point/pointweightmodifier.h"
 #include "clustering/bico.h"
-#include "misc/randomness.h"
-#include "misc/randomgenerator.h"
 #include "datastructure/proxysolution.h"
 #include "point/pointcentroid.h"
-#include "point/pointweightmodifier.h"
-#include "point/realspaceprovider.h"
 
 typedef unsigned int uint;
 

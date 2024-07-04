@@ -120,7 +120,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
 
     def _fit_coreset(
         self,
-        X: Optional[np.array] = None,
+        X: Optional[np.ndarray] = None,
     ) -> None:
         if self.coreset_estimator is None:
             from sklearn.cluster import KMeans
@@ -198,7 +198,9 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         _DLL.addData(self.bico_obj_, c_array, c_n)
 
         if not partial or fit_coreset:
-            self._compute_coreset(X=X if not partial else None, fit_coreset=fit_coreset)
+            self._compute_coreset(
+                X=_X if not partial else None, fit_coreset=fit_coreset
+            )
 
         return self
 

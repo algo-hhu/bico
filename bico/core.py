@@ -104,7 +104,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         X: Sequence[Sequence[float]],
         y: Any = None,
     ) -> "BICO":
-        return self._fit(X, partial=False)
+        return self._fit(X, partial=False, fit_coreset=self.fit_coreset)
 
     @_fit_context(prefer_skip_nested_validation=True)
     def partial_fit(
@@ -113,10 +113,10 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         y: Any = None,
     ) -> "BICO":
         if X is None:
-            self._compute_coreset()
+            self._compute_coreset(fit_coreset=self.fit_coreset)
             return self
         else:
-            return self._fit(X, partial=True)
+            return self._fit(X, partial=True, fit_coreset=False)
 
     def _fit_coreset(
         self,
@@ -161,7 +161,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
 
         self._n_features_out = n_found_points
 
-        if self.fit_coreset or fit_coreset:
+        if fit_coreset:
             self._fit_coreset(X)
 
         return self

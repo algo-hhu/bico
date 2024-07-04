@@ -64,8 +64,14 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
 
     @property
     def labels_(self) -> np.ndarray:
-        if not hasattr(self, "_labels"):
+        if not hasattr(self, "_cluster_centers"):
             raise NotFittedError(self._CORESET_ESTIMATOR_ERROR)
+        elif not hasattr(self, "_labels"):
+            raise ValueError(
+                "The labels have not been computed because the coreset "
+                "was fit using partial_fit. "
+                "Please call predict on your data to obtain the labels."
+            )
         return self._labels
 
     @property
@@ -114,6 +120,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
 
     def _fit_coreset(
         self,
+        X: Optional[np.array] = None,
     ) -> None:
         if self.coreset_estimator is None:
             from sklearn.cluster import KMeans
@@ -127,10 +134,13 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
             self._coreset_points, sample_weight=self._coreset_weights
         )
         self._cluster_centers: np.ndarray = self.coreset_estimator.cluster_centers_
-        self._labels: np.ndarray = self.coreset_estimator.labels_
+        if X is not None:
+            self._labels: np.ndarray = self.coreset_estimator.predict(X)
         self._inertia: float = self.coreset_estimator.inertia_
 
-    def _compute_coreset(self, fit_coreset: bool = False) -> "BICO":
+    def _compute_coreset(
+        self, X: Optional[np.ndarray] = None, fit_coreset: bool = False
+    ) -> "BICO":
         if not hasattr(self, "bico_obj_"):
             raise NotFittedError(
                 "This BICO instance is not fitted yet. " "Call `fit` or `partial_fit`."
@@ -152,7 +162,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         self._n_features_out = n_found_points
 
         if self.fit_coreset or fit_coreset:
-            self._fit_coreset()
+            self._fit_coreset(X)
 
         return self
 
@@ -188,7 +198,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         _DLL.addData(self.bico_obj_, c_array, c_n)
 
         if not partial or fit_coreset:
-            self._compute_coreset(fit_coreset)
+            self._compute_coreset(X=X if not partial else None, fit_coreset=fit_coreset)
 
         return self
 
@@ -204,9 +214,9 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         return self.labels_
 
     def predict(self, X: Sequence[Sequence[float]]) -> Any:
-        self._fit_coreset()
-
         if self.coreset_estimator is None:
             raise NotFittedError(self._CORESET_ESTIMATOR_ERROR)
+
+        self._fit_coreset()
 
         return self.coreset_estimator.predict(X)

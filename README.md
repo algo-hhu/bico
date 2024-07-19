@@ -7,6 +7,8 @@
 
 BICO is a fast streaming algorithm to compute high quality solutions for the k-means problem on very large sets of points. It combines the tree data structure of SIGMOND Test of Time Award winning algorithm BIRCH with insights from clustering theory to obtain solutions fast while keeping the error regarding the k-means cost function low.
 
+You can try BICO out on our [Clustering Toolkit](https://clustering-toolkit.algo.hhu.de/K-Means_Clustering)!
+
 <!---
 TODO: Add logo
 <p align="center">

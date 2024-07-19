@@ -120,8 +120,8 @@ poetry run python -m unittest discover tests -v
 
 ## Citation
 
-If you use this code, please cite [the following paper](https://link.springer.com/chapter/10.1007/978-3-642-40450-4_41):
+If you use this code, please cite [the following paper](https://doi.org/10.1007/978-3-642-40450-4_41):
 
 ```
-Hendrik Fichtenberger, Marc Gillé, Melanie Schmidt, Chris Schwiegelshohn and Christian Sohler. "BICO: BIRCH Meets Coresets for k-Means Clustering" (2013). ESA 2013.
+H. Fichtenberger, M. Gillé, M. Schmidt, C. Schwiegelshohn, and C. Sohler, "BICO: BIRCH meets Coresets for K-Means Clustering," in Lecture notes in computer science, 2013, pp. 481–492. doi: 10.1007/978-3-642-40450-4_41.
 ```

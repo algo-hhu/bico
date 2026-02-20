@@ -1,6 +1,6 @@
 [![Build Status](https://github.com/algo-hhu/bico/actions/workflows/mypy-flake-test.yml/badge.svg)](https://github.com/algo-hhu/bico/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Supported Python version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![Supported Python version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 [![Stable Version](https://img.shields.io/pypi/v/bico?label=stable)](https://pypi.org/project/bico/)
 
 # BICO

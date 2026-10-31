@@ -25,7 +25,7 @@ jobs:
           # Nur nötig, solange cibuildwheel 3.15 als Prerelease führt:
           # CIBW_ENABLE: cpython-prerelease
           # Prüft, dass jedes Wheel importierbar ist:
-          CIBW_TEST_COMMAND: "python -c 'import connected_k_center'"
+          CIBW_TEST_COMMAND: "python -c 'import bico'"
 
       - uses: actions/upload-artifact@v4
         with:

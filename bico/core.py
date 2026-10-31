@@ -172,7 +172,7 @@ class BICO(BaseEstimator, ClusterMixin, ClassNamePrefixFeaturesOutMixin):
         has_bico_obj = getattr(self, "bico_obj_", None)
         first_call = not (partial and has_bico_obj)
 
-        _X = np.array(X, dtype=np.float64, order="C", copy=False)
+        _X = np.asarray(X, dtype=np.float64, order="C")
         assert isinstance(_X, np.ndarray)
 
         if first_call:

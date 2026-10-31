@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bico"
-version = "0.1.5"
+version = "0.1.6"
 description = "BICO is a fast streaming algorithm to compute coresets for the k-means problem on very large sets of points."
 authors = ["Melanie Schmidt <mschmidt@hhu.de>", "Giulia Baldini <giulia.baldini@hhu.de>"]
 readme = "README.md"
@@ -10,9 +10,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 numpy = "^1.26.4"
-scikit-learn = "^1.5.0"
+scikit-learn = "^1.9.1"
 
 [tool.poetry.group.dev.dependencies]
 black = {extras = ["jupyter"], version = "^26.10.1"}

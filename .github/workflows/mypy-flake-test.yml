@@ -5,7 +5,6 @@ name: Q&A and Tests
 permissions:
   contents: read
 
-
 on:
   push:
     branches:

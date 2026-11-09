@@ -1,4 +1,10 @@
+---
+
 name: Q&A and Tests
+
+permissions:
+  contents: read
+
 
 on:
   push:
@@ -22,8 +28,10 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12", "3.13", "3.14", "3.15"]
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3
@@ -32,17 +40,20 @@ jobs:
 
       - name: Install poetry
         run: |
-          curl -sSL https://install.python-poetry.org | POETRY_VERSION=2.5.1 python3 -
+          curl -sSL https://install.python-poetry.org \
+          | POETRY_VERSION=2.5.1 python3 -
           poetry run pip install -U pip
           poetry install --with dev
 
       - name: Run MyPy
         run: |
-          mkdir .mypy_cache
+          mkdir -p .mypy_cache
           poetry run mypy --install-types --non-interactive bico
+
       - name: Run Flake8
         run: |
           poetry run flake8 bico/
+
       - name: Run Tests
         run: |
           poetry run python -m unittest discover tests -v

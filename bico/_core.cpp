@@ -41,7 +41,7 @@ BicoExternal::BicoExternal(uint d,
 
 void BicoExternal::addData(double const *array, uint n)
 {
-    for (size_t i = 0; i < n * _d; i += _d)
+    for (size_t i = 0; i < static_cast<size_t>(n) * _d; i += _d)
     {
         addPoint(&array[i]);
     }

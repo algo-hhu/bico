@@ -1,6 +1,9 @@
 ---
 name: Trigger Gitlab Pipeline
 
+permissions:
+  contents: read
+
 on:
   # push:
   #   branches:
